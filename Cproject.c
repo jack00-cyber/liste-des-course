@@ -120,3 +120,21 @@ void afficherArticlesTries(Noeud *tete) {
         i++;
         courant = courant->suivant;
     }
+// Tri par insertion
+    for (int i = 1; i < nbArticles; i++) {
+        Article cle = tabArticles[i];
+        int j = i - 1;
+        while (j >= 0 && tabArticles[j].priorite < cle.priorite) {
+            tabArticles[j + 1] = tabArticles[j];
+            j = j - 1;
+        }
+        tabArticles[j + 1] = cle;
+    }
+
+    // Afficher les articles tries
+    for (int i = 0; i < nbArticles; i++) {
+        printf("%s (%d) - Priorite : %d\n", tabArticles[i].nom, tabArticles[i].quantite, tabArticles[i].priorite);
+    }
+
+    free(tabArticles);
+}
