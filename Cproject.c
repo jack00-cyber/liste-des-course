@@ -89,3 +89,34 @@ void afficherListe(Noeud *tete) {
     }
     printf("\n-----------------------------------------------------------------------------------\n");
 }
+
+// Fonction pour afficher l'historique
+void afficherHistorique(Historique *tete) {
+    Historique *courant = tete;
+    while (courant != NULL) {
+        printf("Operation : %s\n", courant->operation);
+        printf("Article : %s\n", courant->nomArticle);
+        printf("Ancienne quantite : %d\n", courant->ancienneQuantite);
+        printf("Nouvelle quantite : %d\n\n", courant->nouvelleQuantite);
+        courant = courant->suivant;
+    }
+}
+
+
+// Fonction pour afficher les articles tries par priorite
+void afficherArticlesTries(Noeud *tete) {
+    // Creer un tableau temporaire pour stocker les articles
+    Noeud *courant = tete;
+    int nbArticles = 0;
+    while (courant != NULL) {
+        nbArticles++;
+        courant = courant->suivant;
+    }
+    Article *tabArticles = (Article*)malloc(nbArticles * sizeof(Article));
+    courant = tete;
+    int i = 0;
+    while (courant != NULL) {
+        tabArticles[i] = courant->article;
+        i++;
+        courant = courant->suivant;
+    }
