@@ -138,3 +138,57 @@ void afficherArticlesTries(Noeud *tete) {
 
     free(tabArticles);
 }
+
+int main() {
+    Noeud *liste = NULL;
+    Historique *historique = NULL;
+
+    int choix;
+    do {
+        printf("1. Ajouter un article\n");
+        printf("2. Supprimer un article\n");
+        printf("3. Afficher la liste\n");
+        printf("4. Afficher l'historique\n");
+        printf("5. Afficher les articles tries par priorite\n");
+        printf("0. Quitter\n");
+        scanf("%d", &choix);
+
+        switch (choix) {
+            case 1: {
+                char nom[MAX_NOM];
+                int quantite;
+                printf("Entrez le nom de l'article : ");
+                scanf("%s", nom);
+                printf("Entrez la quantite : ");
+                scanf("%d", &quantite);
+
+                Noeud *nouvelArticle = creerArticle(nom, quantite);
+                ajouterArticle(&liste, nouvelArticle, &historique);
+                break;
+            }
+            case 2: {
+                char nom[MAX_NOM];
+                printf("Entrez le nom de l'article a supprimer : ");
+                scanf("%s", nom);
+
+                supprimerArticle(&liste, nom, &historique);
+                break;
+            }
+            case 3:
+                afficherListe(liste);
+                break;
+            case 4:
+                afficherHistorique(historique);
+                break;
+            case 5:
+                afficherArticlesTries(liste);
+                break;
+            case 0:
+                break;
+            default:
+                printf("Choix invalide\n");
+        }
+    } while (choix != 0);
+
+    return 0;
+}
