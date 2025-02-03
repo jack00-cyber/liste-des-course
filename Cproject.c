@@ -48,3 +48,44 @@ void ajouterArticle(Noeud **tete, Noeud *nouveau, Historique **teteHistorique) {
     nouvelHistorique->suivant = *teteHistorique;
     *teteHistorique = nouvelHistorique;
 }
+
+void supprimerArticle(Noeud **tete, const char *nom, Historique **teteHistorique) {
+    // ... (code existant)
+    Noeud *precedent = NULL, *courant = *tete;
+
+    while (courant != NULL && strcmp(courant->article.nom, nom) != 0) {
+        precedent = courant;
+        courant = courant->suivant;
+    }
+
+    if (courant == NULL) {
+        printf("Article non trouve.\n");
+    } else {
+        if (precedent == NULL) {
+            *tete = courant->suivant;
+        } else {
+            precedent->suivant = courant->suivant;
+        }
+        free(courant);
+    }
+    // Ajouter à l'historique :
+    Historique *nouvelHistorique = (Historique*)malloc(sizeof(Historique));
+    strcpy(nouvelHistorique->operation, "Suppression");
+    strcpy(nouvelHistorique->nomArticle, nom);
+    nouvelHistorique->ancienneQuantite = courant->article.quantite;
+    nouvelHistorique->nouvelleQuantite = 0;
+    nouvelHistorique->suivant = *teteHistorique;
+    *teteHistorique = nouvelHistorique;
+}
+
+// Fonction pour afficher la liste
+void afficherListe(Noeud *tete) {
+    Noeud *courant = tete;
+    int i = 1;
+    printf("------------------------la voila votre liste de course-----------------------------\n");
+    while (courant != NULL) {
+        printf("\t\t\t %d. %s (%d)\n", i++, courant->article.nom, courant->article.quantite);
+        courant = courant->suivant;
+    }
+    printf("\n-----------------------------------------------------------------------------------\n");
+}
